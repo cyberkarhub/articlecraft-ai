@@ -1,0 +1,47 @@
+/* ArticleCraft AI Gutenberg Blocks Styles */
+
+.articlecraft-ai-block {
+    padding: 20px;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    margin: 20px 0;
+}
+
+.articlecraft-ai-block h3 {
+    margin: 0 0 15px 0;
+    color: #1e40af;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.articlecraft-ai-block .description {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.articlecraft-ai-generate-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.articlecraft-ai-generate-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.articlecraft-ai-generate-button:disabled {
+    background: #94a3b8;
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
