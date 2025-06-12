@@ -1,0 +1,511 @@
+.articlecraft-ai-meta-box {
+    padding: 0;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Section Styling */
+.articlecraft-ai-section {
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid #e8eaed;
+    background: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.articlecraft-ai-section:last-child {
+    border-bottom: none;
+}
+
+.articlecraft-ai-section:hover {
+    background: #fafbfc;
+}
+
+.articlecraft-ai-section h4 {
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.articlecraft-ai-section .description {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+/* Structure Options Styling */
+.articlecraft-ai-structure-options {
+    margin: 12px 0;
+    padding: 12px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.articlecraft-ai-structure-options label {
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    display: block;
+    color: #374151;
+    font-size: 13px;
+}
+
+.structure-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.structure-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    margin: 0;
+}
+
+.structure-option:hover {
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.structure-option input[type="radio"] {
+    margin: 0;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.radio-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.radio-label strong {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 600;
+}
+
+.radio-label small {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.3;
+}
+
+.structure-option input[type="radio"]:checked + .radio-label strong {
+    color: #3b82f6;
+}
+
+.articlecraft-ai-structure-options .description {
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-style: italic;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Input Styling */
+#articlecraft-ai-url {
+    margin-bottom: 15px;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: #ffffff;
+}
+
+#articlecraft-ai-url:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#articlecraft-ai-url.valid-url {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+/* Button Styling */
+.articlecraft-ai-section .button {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.articlecraft-ai-section .button-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.articlecraft-ai-section .button-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Button spinner with better contrast */
+.articlecraft-ai-section .button.articlecraft-spinner-active {
+    background: #94a3b8 !important;
+    color: transparent !important;
+    pointer-events: none !important;
+    cursor: wait !important;
+}
+
+.articlecraft-ai-section .button.articlecraft-spinner-active::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+    border: 3px solid rgba(255,255,255,0.3) !important;
+    border-top: 3px solid #ffffff !important;
+    border-radius: 50% !important;
+    animation: articlecraft-spin 0.8s linear infinite !important;
+    z-index: 999999 !important;
+    display: block !important;
+}
+
+@keyframes articlecraft-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.articlecraft-ai-section .button-primary:disabled {
+    background: #94a3b8;
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.articlecraft-ai-section .button-secondary {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #475569;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.articlecraft-ai-section .button-secondary:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Meta Fields Styling */
+.articlecraft-ai-section label {
+    display: block;
+    margin: 15px 0 8px 0;
+    font-weight: 600;
+    font-size: 13px;
+    color: #374151;
+}
+
+#articlecraft-ai-meta-title,
+#articlecraft-ai-meta-description {
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: #f8fafc;
+    resize: vertical;
+}
+
+#articlecraft-ai-meta-title:focus,
+#articlecraft-ai-meta-description:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: #ffffff;
+}
+
+#articlecraft-ai-meta-title.over-limit,
+#articlecraft-ai-meta-description.over-limit {
+    border-color: #ef4444;
+    background: #fef2f2;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+#articlecraft-ai-meta-description.under-limit {
+    border-color: #f59e0b;
+    background: #fffbeb;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.char-counter {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.char-counter.over-limit {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.char-counter.under-limit {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+/* Progress Animation Styling */
+.articlecraft-ai-progress {
+    margin: 10px 0 !important;
+    padding: 15px !important;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    border-radius: 8px !important;
+    border: 2px solid #0ea5e9 !important;
+    text-align: center !important;
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.2) !important;
+    animation: slideIn 0.3s ease-out !important;
+    display: none !important;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.progress-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 15px !important;
+    gap: 15px !important;
+}
+
+.progress-bar {
+    flex: 1 !important;
+    max-width: 200px !important;
+    height: 12px !important;
+    background: #e0f2fe !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid #0ea5e9 !important;
+}
+
+.progress-fill {
+    height: 100% !important;
+    background: linear-gradient(90deg, #0ea5e9, #0284c7, #0369a1, #0ea5e9) !important;
+    background-size: 400% 100% !important;
+    width: 0% !important;
+    animation: progress-animation 4s infinite, gradient-move 2s infinite !important;
+    border-radius: 4px !important;
+}
+
+.progress-spinner {
+    flex-shrink: 0 !important;
+}
+
+.spinner {
+    width: 24px !important;
+    height: 24px !important;
+    border: 3px solid #e0f2fe !important;
+    border-top: 3px solid #0ea5e9 !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
+}
+
+@keyframes progress-animation {
+    0% { width: 0%; }
+    25% { width: 30%; }
+    50% { width: 60%; }
+    75% { width: 85%; }
+    100% { width: 100%; }
+}
+
+@keyframes gradient-move {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.progress-text {
+    margin: 10px 0 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0c4a6e !important;
+}
+
+.progress-messages {
+    margin-top: 15px !important;
+}
+
+.progress-messages .message {
+    display: none !important;
+    font-size: 13px !important;
+    color: #0c4a6e !important;
+    margin: 6px 0 !important;
+    padding: 8px 12px !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 6px !important;
+    border-left: 3px solid #0ea5e9 !important;
+    animation: fadeInMessage 0.4s ease-in !important;
+    font-weight: 500 !important;
+}
+
+.progress-messages .message.active {
+    display: block !important;
+}
+
+@keyframes fadeInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Help Section */
+.articlecraft-ai-help-section {
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-top: 2px solid #e2e8f0;
+}
+
+.articlecraft-ai-help-section .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.articlecraft-ai-help-section .button:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.articlecraft-ai-help-section .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Notice Styling */
+.articlecraft-ai-notice {
+    border-left: 4px solid #3b82f6;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: slideInNotice 0.3s ease-out;
+}
+
+.articlecraft-ai-notice.notice-success {
+    border-left-color: #10b981;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.articlecraft-ai-notice.notice-error {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+}
+
+@keyframes slideInNotice {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .progress-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .progress-bar {
+        max-width: 100%;
+    }
+    
+    .articlecraft-ai-section {
+        padding: 8px;
+    }
+    
+    .articlecraft-ai-help-section .button {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+    
+    .structure-radio-group {
+        gap: 6px;
+    }
+    
+    .structure-option {
+        padding: 6px;
+    }
+}
+
+/* Animation for meta box loading */
+.articlecraft-ai-meta-box {
+    animation: metaBoxLoad 0.5s ease-out;
+}
+
+@keyframes metaBoxLoad {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
