@@ -636,50 +636,87 @@ You are an experienced content writer and journalist with expertise in creating 
         return $response_data['choices'][0]['message']['content'] ?? '';
     }
     
-    private function parse_ai_response($response) {
-        $title = '';
-        $content = '';
-        $meta_title = '';
-        $meta_description = '';
-        
-        // Extract title
-        if (preg_match('/TITLE:\s*(.+?)(?=\n|$)/i', $response, $matches)) {
-            $title = trim($matches[1]);
-        }
-        
-        // Extract content - more precise regex to avoid meta bleeding
-        if (preg_match('/CONTENT:\s*(.*?)(?=\n\s*META_TITLE:|$)/s', $response, $matches)) {
-            $content = trim($matches[1]);
-        }
-        
-        // Extract meta title - if empty, use the main title
-        if (preg_match('/META_TITLE:\s*(.+?)(?=\n|$)/i', $response, $matches)) {
-            $meta_title = trim($matches[1]);
-            // Ensure meta title is under 50 characters
-            if (strlen($meta_title) > 50) {
-                $meta_title = substr($meta_title, 0, 47) . '...';
-            }
-        } else {
-            // Fallback: use main title if meta title is not found
-            $meta_title = $title;
-            if (strlen($meta_title) > 50) {
-                $meta_title = substr($meta_title, 0, 47) . '...';
-            }
-        }
-        
-        // Extract meta description
-        if (preg_match('/META_DESCRIPTION:\s*(.+?)(?=\n|$)/i', $response, $matches)) {
-            $meta_description = trim($matches[1]);
-        }
-        
-        return array(
-            'title' => $title,
-            'content' => $content,
-            'meta_title' => $meta_title,
-            'meta_description' => $meta_description,
-            'raw_response' => $response
-        );
+private function parse_ai_response($response) {
+    $title = '';
+    $content = '';
+    $meta_title = '';
+    $meta_description = '';
+
+    // Normalize line endings to prevent regex issues
+    $response = str_replace(["\r\n", "\r"], "\n", $response);
+
+    // Define patterns for each part
+    // Each pattern captures content until the next known label or end of string
+    $patterns = [
+        'title' => '/TITLE:\s*(.*?)(?=\nCONTENT:|\s*\nMETA_TITLE:|\s*\nMETA_DESCRIPTION:|$)/is',
+        'content' => '/CONTENT:\s*(.*?)(?=\nTITLE:|\s*\nMETA_TITLE:|\s*\nMETA_DESCRIPTION:|$)/is',
+        'meta_title' => '/META_TITLE:\s*(.*?)(?=\nTITLE:|\s*\nCONTENT:|\s*\nMETA_DESCRIPTION:|$)/is',
+        'meta_description' => '/META_DESCRIPTION:\s*(.*?)(?=\nTITLE:|\s*\nCONTENT:|\s*\nMETA_TITLE:|$)/is'
+    ];
+
+    if (preg_match($patterns['title'], $response, $matches)) {
+        $title = trim($matches[1]);
     }
+
+    if (preg_match($patterns['content'], $response, $matches)) {
+        $content = trim($matches[1]);
+    }
+
+    if (preg_match($patterns['meta_title'], $response, $matches)) {
+        $meta_title = trim($matches[1]);
+    }
+
+    if (preg_match($patterns['meta_description'], $response, $matches)) {
+        $meta_description = trim($matches[1]);
+    }
+
+    // Fallback for meta_title if it's empty, using the main title
+    if (empty($meta_title) && !empty($title)) {
+        $meta_title = $title;
+    }
+
+    // Ensure meta title is under 50 characters (as per original logic)
+    if (strlen($meta_title) > 50) {
+        $meta_title = substr($meta_title, 0, 47) . '...';
+    }
+
+    // If content is still empty, but the response isn't,
+    // it might be that the AI didn't use labels at all or used different ones.
+    // As a last resort, if title is found but content is empty,
+    // we can try to take everything after the title as content,
+    // assuming meta description would be stripped if it was found.
+    // This is a bit more aggressive and might need refinement.
+    if (empty($content) && !empty($title) && !empty($response)) {
+        // Attempt to get content if TITLE: was found but CONTENT: was not.
+        // Take text after the matched title, then try to strip meta parts if they were found.
+        $potential_content_after_title = '';
+        if (preg_match('/TITLE:\s*' . preg_quote($title, '/') . '\s*\n(.*?)$/is', $response, $title_match_parts)) {
+            $potential_content_after_title = trim($title_match_parts[1]);
+        }
+
+        if (!empty($potential_content_after_title)) {
+            $temp_content = $potential_content_after_title;
+            // Remove meta_title part if it was found and exists in this chunk
+            if(!empty($meta_title) && strpos($temp_content, "META_TITLE:") !== false) {
+                 $temp_content = preg_replace('/META_TITLE:\s*.*$/is', '', $temp_content);
+            }
+            // Remove meta_description part
+            if(!empty($meta_description) && strpos($temp_content, "META_DESCRIPTION:") !== false) {
+                 $temp_content = preg_replace('/META_DESCRIPTION:\s*.*$/is', '', $temp_content);
+            }
+            $content = trim($temp_content);
+        }
+    }
+
+
+    return array(
+        'title' => $title,
+        'content' => $content,
+        'meta_title' => $meta_title,
+        'meta_description' => $meta_description,
+        'raw_response' => $response // Keep sending raw_response for debugging if needed
+    );
+}
     
     private function log_operation($action_type, $source_url, $input_content, $generated_content, $parsed_result, $processing_time) {
         global $wpdb;
