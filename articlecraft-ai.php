@@ -140,6 +140,24 @@ class ArticleCraftAI {
     }
     
     public function activate() {
+        // Ensure the Database class is loaded first.
+        require_once ARTICLECRAFT_AI_PLUGIN_PATH . 'includes/class-database.php';
+
+        // Check for cURL
+        if (!function_exists('curl_init')) {
+            // Deactivate the plugin
+            deactivate_plugins(plugin_basename(__FILE__));
+
+            // Suppress "Plugin activated" message
+            if (isset($_GET['activate'])) {
+                unset($_GET['activate']);
+            }
+
+            // We'll rely on the existing requirements_notice() to show the error.
+            // No need to add a separate admin_notice action here if check_requirements() handles it.
+            return; // Stop further activation
+        }
+
         // Create database tables
         $database = new ArticleCraftAI_Database();
         $database->create_tables();
